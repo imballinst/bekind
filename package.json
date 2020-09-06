@@ -1,0 +1,28 @@
+{
+  "name": "wysiots",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:Imballinst/wysiots.git",
+  "author": "Try Ajitiono <ballinst@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "snowpack dev",
+    "dev:css": "tailwindcss build tailwind-base.css -o src/tailwind.css",
+    "build": "snowpack build",
+    "test": "echo \"Vue 3.0 test support is still in progress.\" && exit 1"
+  },
+  "dependencies": {
+    "qs": "^6.9.4",
+    "tailwindcss": "^1.7.6",
+    "vue": "^3.0.0-rc.4"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.3.0",
+    "@snowpack/app-scripts-vue": "^1.8.4",
+    "@snowpack/plugin-build-script": "^2.0.6",
+    "@snowpack/plugin-dotenv": "^2.0.1",
+    "autoprefixer": "^9.8.6",
+    "postcss-cli": "^7.1.1",
+    "snowpack": "^2.9.0"
+  }
+}

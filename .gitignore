@@ -1,0 +1,11 @@
+.build
+build
+web_modules
+node_modules
+.env*
+
+# Tailwind output.
+tailwind.css
+
+# OSX.
+.DS_Store
