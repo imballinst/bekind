@@ -1,15 +1,25 @@
 <template>
-  <div class="bg-green-700 main">
-    <div class="flex mb-4 h-full flex-wrap">
+  <div class="p-2 main bg-black">
+    <div class="flex flex-col items-center justify-center h-full">
       <div
-        class="w-1/4 p-2 absolute"
+        class="p-2 absolute"
         v-bind:class="{ clippingIn: isClippingIn, clipped: isClipped }"
         v-for="n in 5"
         v-bind:key="n"
       >
-        <div class="absolute bg-filter"></div>
-        <card :img="img" text="Grind hard, shine hard 🏆😎💪 #GX34 #arsenal #facommunityshield20" />
+        <card
+          :img="img"
+          :isLiked="isLiked"
+          text="Grind hard, shine hard 🏆😎💪 #GX34 #arsenal #facommunityshield20"
+          v-on:handle-like="handleLike"
+        />
       </div>
+
+      <!-- <text-animate-in :duration="1000">
+        Granit
+        <span class="font-bold">Xhaka</span> won both FA Cup and Community Shield with Arsenal in August 2020.
+        <span class="italic">If</span> he complaints about being an Arsenal player, would you believe him?
+      </text-animate-in>-->
     </div>
   </div>
 </template>
@@ -19,26 +29,22 @@ import { computed, ref } from 'vue';
 import CardVue from './components/Card.vue';
 
 import XhakaImg from './images/xhaka-community-shield.jpg';
+import TextAnimateInVue from './components/TextAnimateIn.vue';
+
+const isClippingIn = ref(false);
+const isClipped = ref(false);
+const isLiked = ref(false);
 
 export default {
   components: {
-    card: CardVue
+    card: CardVue,
+    'text-animate-in': TextAnimateInVue
   },
   setup() {
-    const isClippingIn = ref(false);
-    const isClipped = ref(false);
-
-    setTimeout(() => {
-      isClippingIn.value = true;
-    }, 1000);
-
-    setTimeout(() => {
-      isClipped.value = true;
-    }, 1500);
-
     return {
       isClippingIn: computed(() => isClippingIn.value),
-      isClipped: computed(() => isClipped.value)
+      isClipped: computed(() => isClipped.value),
+      isLiked: computed(() => isLiked.value)
     };
   },
   data() {
@@ -46,6 +52,19 @@ export default {
       img: XhakaImg,
       message: 'Learn Vue'
     };
+  },
+  methods: {
+    handleLike() {
+      isLiked.value = true;
+
+      setTimeout(() => {
+        isClippingIn.value = true;
+      }, 1000);
+
+      setTimeout(() => {
+        isClipped.value = true;
+      }, 1500);
+    }
   }
 };
 </script>
@@ -53,11 +72,6 @@ export default {
 <style>
 .main {
   height: 100vh;
-}
-
-.bg-filter {
-  width: calc(100% - 1rem);
-  height: calc(100% - 1rem);
 }
 
 /* Clips. */
