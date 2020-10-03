@@ -31,4 +31,4 @@ No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
 
 https://www.instagram.com/p/CEgfn3JqlQc/
 https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/
-https://www.telegraph.co.uk/football/2019/10/27/granit-xhaka-wrong-have-standoff-fans-says-unai-emery-captain/
+https://metro.co.uk/2020/04/29/granit-xhaka-speaks-hatred-arsenal-fans-telling-f-off-12626935/
