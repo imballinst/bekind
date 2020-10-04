@@ -7,7 +7,5 @@
       { "cmd": "postcss", "input": [".css"], "output": [".css"] }
     ]
   ],
-  "proxy": {
-    "/twitter": "https://api.twitter.com"
-  }
+  "proxy": {}
 }
