@@ -3,8 +3,8 @@
     <div
       class="wrapper flex flex-col items-center relative"
       v-bind:class="{
-        'h-full justify-center': !showCard,
-        'pt-12': showCard
+        'justify-center': !showCard,
+        'card-top-padding': showCard
       }"
     >
       <section
@@ -274,15 +274,28 @@ figcaption {
   width: 100vw;
 }
 
+.figure {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .wrapper.card-top-padding {
+    padding-top: 4rem;
+  }
+}
+
 @media (min-width: 601px) {
   .wrapper {
     width: 625px;
     height: 625px;
-  }
-
-  .figure {
-    width: 100%;
-    height: 100%;
+    justify-content: center;
+    align-items: center;
   }
 }
 
