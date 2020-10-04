@@ -1,6 +1,12 @@
 <template>
-  <div class="root bg-black flex-all-center">
-    <div class="flex-all-center wrapper relative">
+  <div class="root bg-black">
+    <div
+      class="wrapper flex flex-col items-center relative"
+      v-bind:class="{
+        'h-full justify-center': !showCard,
+        'pt-12': showCard
+      }"
+    >
       <section
         aria-label="Card"
         class="card-wrapper transition-base"
@@ -54,20 +60,20 @@
             >.
           </span>
         </span>
-
-        <!-- This button is used to debug state-by-state. I'm too lazy to remove it. -->
-        <!-- <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          v-on:click="handleNextText"
-          v-if="
-            textStateId !== 'SHOW_CLICK_THE_LIKE_BUTTON' &&
-            textStateId !== 'SHOW_BE_KIND_TO_OTHERS'
-          "
-        >
-          Next
-        </button> -->
       </section>
     </div>
+
+    <!-- This button is used to debug state-by-state. I'm too lazy to remove it. -->
+    <!-- <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 fixed w-full bottom-0"
+      v-on:click="handleNextText"
+      v-if="
+        textStateId !== 'SHOW_CLICK_THE_LIKE_BUTTON' &&
+        textStateId !== 'SHOW_BE_KIND_TO_OTHERS'
+      "
+    >
+      Next
+    </button> -->
   </div>
 </template>
 
@@ -268,27 +274,25 @@ figcaption {
   width: 100vw;
 }
 
-.flex-all-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+@media (min-width: 601px) {
+  .wrapper {
+    width: 625px;
+    height: 625px;
+  }
 
-.wrapper {
-  width: 625px;
-  height: 625px;
+  .figure {
+    width: 600px;
+  }
 }
 
 .card-wrapper {
   width: 300px;
   height: 500px;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .figure {
-  width: 600px;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .message-wrapper {
@@ -296,9 +300,9 @@ figcaption {
   flex-direction: column;
 }
 
-@media (min-width: 601px) {
-  .message-wrapper {
-    max-width: 600px;
+@media (max-width: 600px) {
+  .message-wrapper > span {
+    padding: 1rem;
   }
 }
 
