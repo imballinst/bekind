@@ -14,7 +14,7 @@ module.exports = {
       'snowpack-plugin-imagemin',
       {
         /* see "Plugin Options" below */
-        include: ['**/*.jpg', '**/*.png'],
+        include: ['src/images/*.jpg', 'src/images/*.png'],
         plugins: [
           require('imagemin-mozjpeg')({ quality: 90, progressive: true }),
           require('imagemin-optipng')({ optimizationLevel: 7 })
