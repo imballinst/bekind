@@ -5,13 +5,13 @@
   },
   "extends": "@snowpack/app-scripts-vue",
   "plugins": [
-    "@snowpack/plugin-dotenv",
     "@snowpack/plugin-vue",
+    "@snowpack/plugin-dotenv",
     [
       "@snowpack/plugin-build-script",
       { "cmd": "postcss", "input": [".css"], "output": [".css"] }
     ],
-    ["@snowpack/plugin-webpack"]
+    "@snowpack/plugin-webpack"
   ],
   "proxy": {}
 }
