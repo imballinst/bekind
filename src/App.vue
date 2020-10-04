@@ -182,6 +182,9 @@ export default {
     watchEffect(() => {
       // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
+        // Pre-fetch the next image.
+        prefetch(textStatesData.SHOW_TALKSPORT_QUOTE.imgSource);
+
         const timings =
           textStatesData[currentlyShownTextState.value].duration / 2;
 
@@ -196,6 +199,10 @@ export default {
         setTimeout(() => {
           cardClassName.value = undefined;
         }, textStatesData[currentlyShownTextState.value].duration);
+      } else if (currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE') {
+        // Pre-fetch the next image.
+        // Need to automate this if the number of images is getting out of hand.
+        prefetch(textStatesData.SHOW_METRO_QUOTE.imgSource);
       }
 
       // Re-animate.
@@ -239,6 +246,12 @@ export default {
     }
   }
 };
+
+// Pre-fetch the image.
+function prefetch(url) {
+  const img = new Image();
+  img.src = url;
+}
 </script>
 
 <style>
