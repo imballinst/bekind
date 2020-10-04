@@ -134,7 +134,6 @@ const textStatesData = {
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-const progress = ref(0);
 const className = ref(undefined);
 const cardClassName = ref(undefined);
 
