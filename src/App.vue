@@ -287,7 +287,7 @@ figcaption {
   }
 
   .wrapper.card-top-padding {
-    padding-top: 4rem;
+    padding-top: 2rem;
   }
 }
 
