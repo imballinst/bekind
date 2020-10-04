@@ -69,6 +69,7 @@ const isClippingIn = ref(false);
 const isClipped = ref(false);
 const isLiked = ref(false);
 
+// An offset of 500ms from the CSS style so we won't see some "jumpy stuff".
 const TRANSITION_DURATION = 1500;
 
 const textStatesData = {
@@ -149,8 +150,9 @@ export default {
     };
   },
   mounted() {
-    // Hook to update changes when we "like" an image.
+    // Hook to automatically re-animate.
     watchEffect(() => {
+      // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
         const timings =
           textStatesData[currentlyShownTextState.value].duration / 2;
@@ -161,12 +163,14 @@ export default {
 
         setTimeout(() => {
           isClipped.value = true;
-        }, timings + 1000);
-      }
-    });
+        }, timings + timings / 4);
 
-    // Hook to automatically re-animate.
-    watchEffect(() => {
+        setTimeout(() => {
+          cardClassName.value = undefined;
+        }, textStatesData[currentlyShownTextState.value].duration);
+      }
+
+      // Re-animate.
       this.reanimate(textStatesData[currentlyShownTextState.value].duration);
     });
   },
@@ -174,25 +178,9 @@ export default {
     handleLike() {
       isLiked.value = true;
       this.handleNextText();
-
-      const timeoutBeforeGrayscale =
-        TRANSITION_DURATION +
-        textStatesData.SHOW_IS_HE_HAPPY.duration +
-        TRANSITION_DURATION +
-        TRANSITION_DURATION +
-        textStatesData.SHOW_IF_ONE_DAY_HES_SAD.duration / 2;
-
-      setTimeout(() => {
-        isClippingIn.value = true;
-      }, timeoutBeforeGrayscale);
-
-      setTimeout(() => {
-        isClipped.value = true;
-        cardClassName.value = undefined;
-      }, timeoutBeforeGrayscale + textStatesData.SHOW_IF_ONE_DAY_HES_SAD.duration / 4);
     },
     handleNextText() {
-      // Trigger the hide transition.
+      // Transition out.
       className.value = undefined;
 
       // Update the text.
@@ -206,7 +194,7 @@ export default {
 
         currentlyShownTextState.value = nextTextState;
         this.reanimate(nextDuration);
-      }, 1500);
+      }, TRANSITION_DURATION);
     },
     reanimate(duration) {
       // First transition in.
@@ -216,7 +204,6 @@ export default {
       }, 0);
 
       if (duration !== undefined) {
-        // Transition out.
         timeout = setTimeout(() => {
           this.handleNextText();
         }, duration);
@@ -285,7 +272,7 @@ export default {
 }
 
 .transition-base {
-  transition: all 1500ms;
+  transition: all 1000ms;
   opacity: 0;
 }
 
