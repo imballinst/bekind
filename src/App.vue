@@ -42,16 +42,17 @@
         >
           {{ message.text }}
 
-          <span v-if="isQuoteFromArticle"> -- </span>
-
-          <a
-            v-bind:href="message.sourceLink"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-blue-500 hover:text-blue-700"
+          <span v-if="isQuoteFromArticle">
+            --
+            <a
+              v-bind:href="message.sourceLink"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-500 hover:text-blue-700"
+            >
+              {{ message.source }}.
+            </a></span
           >
-            {{ message.source }}.
-          </a>
         </span>
 
         <!-- This button is used to debug state-by-state. I'm too lazy to remove it. -->
@@ -114,6 +115,7 @@ const textStatesData = {
   SHOW_METRO_QUOTE: {
     duration: 10000,
     img: XhakaPutOffShirt,
+    imgSource: 'Getty Images - Getty',
     text:
       '"Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper."',
     source: 'Metro, April 29th, 2020',
