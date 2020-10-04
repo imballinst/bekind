@@ -9,7 +9,7 @@
     >
       <section
         aria-label="Card"
-        class="card-wrapper transition-base mb-1"
+        class="card-wrapper transition-base mb-4"
         v-if="showCard"
         v-bind:class="cardClassName"
       >
@@ -33,10 +33,10 @@
         class="message-wrapper flex flex-col transition-base"
         v-bind:class="className"
       >
-        <figure class="figure mb-1" v-if="isQuoteFromArticle">
+        <figure class="figure mb-4" v-if="isQuoteFromArticle">
           <img v-bind:src="message.img" v-bind:alt="message.text" />
           <figcaption class="text-white text-center">
-            Image credits: {{ message.imgSource }}
+            Image credits: {{ message.imgSource }}.
           </figcaption>
         </figure>
         <span
@@ -306,7 +306,8 @@ figcaption {
 
 @media (max-width: 600px) {
   .message-wrapper > span {
-    padding: 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 }
 
