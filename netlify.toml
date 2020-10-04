@@ -1,7 +1,6 @@
 [build]
   publish = "build"
-  command = "yarn build"
-  functions = "lambda"
+  command = "yarn dev:css && yarn build"
 [build.environment]
   YARN_VERSION = "1.22.4"
   YARN_FLAGS = "--no-ignore-optional"
