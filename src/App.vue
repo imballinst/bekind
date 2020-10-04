@@ -27,21 +27,34 @@
         class="message-wrapper transition-base"
         v-bind:class="className"
       >
-        <div aria-label="Figure" class="image-wrapper" v-if="!showCard">
+        <figure class="figure" v-if="isQuoteFromArticle">
           <img v-bind:src="message.img" v-bind:alt="message.text" />
-        </div>
+          <figcaption class="text-white text-center">
+            Image credits: {{ message.imgSource }}
+          </figcaption>
+        </figure>
         <span
-          class="message"
+          class="text-white"
           v-bind:class="{
-            'text-center': !(
-              textStateId === 'SHOW_TALKSPORT_QUOTE' ||
-              textStateId === 'SHOW_METRO_QUOTE'
-            )
+            'text-center': !isQuoteFromArticle,
+            italic: isQuoteFromArticle
           }"
         >
           {{ message.text }}
+
+          <span v-if="isQuoteFromArticle"> -- </span>
+
+          <a
+            v-bind:href="message.sourceLink"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-500 hover:text-blue-700"
+          >
+            {{ message.source }}.
+          </a>
         </span>
 
+        <!-- This button is used to debug state-by-state. I'm too lazy to remove it. -->
         <!-- <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           v-on:click="handleNextText"
@@ -91,17 +104,20 @@ const textStatesData = {
   SHOW_TALKSPORT_QUOTE: {
     duration: 10000,
     img: XhakaCupEar,
+    imgSource: 'DAZN',
     text:
-      'The 27-year-old waved his arms, cupped his ears and told fans to “f**k off” after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace.',
-    source:
+      '"The 27-year-old waved his arms, cupped his ears and told fans to “f**k off” after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace."',
+    source: 'talkSPORT, October 30th, 2019',
+    sourceLink:
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
   },
   SHOW_METRO_QUOTE: {
     duration: 10000,
     img: XhakaPutOffShirt,
     text:
-      'Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper.',
-    source:
+      '"Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper."',
+    source: 'Metro, April 29th, 2020',
+    sourceLink:
       'https://metro.co.uk/2020/04/29/granit-xhaka-speaks-hatred-arsenal-fans-telling-f-off-12626935/'
   },
   SHOW_ITS_NOT_ALWAYS_A_HAPPY_STORY_BEHIND_A_SMILE: {
@@ -116,7 +132,6 @@ const textStatesData = {
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-// const currentlyShownTextState = ref('SHOW_TALKSPORT_QUOTE');
 const progress = ref(0);
 const className = ref(undefined);
 const cardClassName = ref(undefined);
@@ -138,11 +153,17 @@ export default {
       isClipped: computed(() => isClipped.value),
       isLiked: computed(() => isLiked.value),
       textStateId: computed(() => currentlyShownTextState.value),
+      // So the template is clear of logic. Well, at least "dirty" logics.
       showCard: computed(
         () =>
           currentlyShownTextState.value === 'SHOW_CLICK_THE_LIKE_BUTTON' ||
           currentlyShownTextState.value === 'SHOW_IS_HE_HAPPY' ||
           currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD'
+      ),
+      isQuoteFromArticle: computed(
+        () =>
+          currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE' ||
+          currentlyShownTextState.value === 'SHOW_METRO_QUOTE'
       ),
       message: computed(() => textStatesData[currentlyShownTextState.value]),
       className: computed(() => className.value),
@@ -235,7 +256,12 @@ export default {
   clip-path: polygon(100% 53%, 45% 51%, 13% 80.5%, 100% 99%);
 }
 
-/* Text message. */
+/* The rest of the styles. */
+figcaption {
+  font-size: 11px;
+  font-style: italic;
+}
+
 .main {
   height: 100vh;
   width: 100vw;
@@ -255,7 +281,7 @@ export default {
   margin-bottom: 16px;
 }
 
-.image-wrapper {
+.figure {
   width: 600px;
   margin-bottom: 16px;
 }
@@ -278,9 +304,5 @@ export default {
 
 .transition-base.in {
   opacity: 1;
-}
-
-.message {
-  color: #fff;
 }
 </style>
