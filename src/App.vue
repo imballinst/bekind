@@ -1,30 +1,58 @@
 <template>
-  <div class="p-2 main bg-black">
-    <div class="flex flex-col items-center justify-center h-full">
-      <!-- <div
-        class="p-2 absolute"
-        v-bind:class="{ clippingIn: isClippingIn, clipped: isClipped }"
-        v-for="n in 5"
-        v-bind:key="n"
+  <div class="main bg-black">
+    <div class="wrapper">
+      <section
+        aria-label="Card"
+        class="card-wrapper transition-base"
+        v-if="showCard"
+        v-bind:class="cardClassName"
       >
-        <card
-          :img="img"
-          :isLiked="isLiked"
-          text="Grind hard, shine hard 🏆😎💪 #GX34 #arsenal #facommunityshield20"
-          v-on:handle-like="handleLike"
-        />
-      </div> -->
+        <div
+          class="absolute"
+          v-bind:class="{ clippingIn: isClippingIn, clipped: isClipped }"
+          v-for="n in 5"
+          v-bind:key="n"
+        >
+          <card
+            :img="message.img"
+            :isLiked="isLiked"
+            text="Grind hard, shine hard 🏆😎💪 #GX34 #arsenal #facommunityshield20"
+            v-on:handle-like="handleLike"
+          />
+        </div>
+      </section>
 
-      <span class="message" v-bind:class="className">
-        {{ message.text }}
-      </span>
-
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        v-on:click="handleNextText"
+      <section
+        aria-label="Message"
+        class="message-wrapper transition-base"
+        v-bind:class="className"
       >
-        Next
-      </button>
+        <div aria-label="Figure" class="image-wrapper" v-if="!showCard">
+          <img v-bind:src="message.img" v-bind:alt="message.text" />
+        </div>
+        <span
+          class="message"
+          v-bind:class="{
+            'text-center': !(
+              textStateId === 'SHOW_TALKSPORT_QUOTE' ||
+              textStateId === 'SHOW_METRO_QUOTE'
+            )
+          }"
+        >
+          {{ message.text }}
+        </span>
+
+        <!-- <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          v-on:click="handleNextText"
+          v-if="
+            textStateId !== 'SHOW_CLICK_THE_LIKE_BUTTON' &&
+            textStateId !== 'SHOW_BE_KIND_TO_OTHERS'
+          "
+        >
+          Next
+        </button> -->
+      </section>
     </div>
   </div>
 </template>
@@ -34,6 +62,8 @@ import { computed, ref, watchEffect } from 'vue';
 import CardVue from './components/Card.vue';
 
 import XhakaImg from './images/xhaka-community-shield.jpg';
+import XhakaCupEar from './images/dazn-xhaka-arm-crowd.png';
+import XhakaPutOffShirt from './images/getty-images-getty-xhaka-put-off-arsenal-shirt.jpeg';
 
 const isClippingIn = ref(false);
 const isClipped = ref(false);
@@ -44,18 +74,22 @@ const TRANSITION_DURATION = 1500;
 const textStatesData = {
   SHOW_CLICK_THE_LIKE_BUTTON: {
     duration: undefined,
+    img: XhakaImg,
     text: 'Click the "Like" button.'
   },
   SHOW_IS_HE_HAPPY: {
     duration: 5000,
+    img: XhakaImg,
     text: 'Is he happy?'
   },
   SHOW_IF_ONE_DAY_HES_SAD: {
     duration: 7500,
-    text: 'If he is actually sad, will you consider him as "ungrateful"?'
+    img: XhakaImg,
+    text: 'If he is actually sad, will you consider him "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
     duration: 10000,
+    img: XhakaCupEar,
     text:
       'The 27-year-old waved his arms, cupped his ears and told fans to “f**k off” after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace.',
     source:
@@ -63,11 +97,9 @@ const textStatesData = {
   },
   SHOW_METRO_QUOTE: {
     duration: 10000,
-    text: `
-Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper.
-
-Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper.
-    `.trim(),
+    img: XhakaPutOffShirt,
+    text:
+      'Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper.',
     source:
       'https://metro.co.uk/2020/04/29/granit-xhaka-speaks-hatred-arsenal-fans-telling-f-off-12626935/'
   },
@@ -83,8 +115,10 @@ Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Cry
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+// const currentlyShownTextState = ref('SHOW_TALKSPORT_QUOTE');
 const progress = ref(0);
 const className = ref(undefined);
+const cardClassName = ref(undefined);
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -94,36 +128,68 @@ export default {
     card: CardVue
   },
   setup() {
+    setTimeout(() => {
+      cardClassName.value = 'in';
+    }, 0);
+
     return {
       isClippingIn: computed(() => isClippingIn.value),
       isClipped: computed(() => isClipped.value),
       isLiked: computed(() => isLiked.value),
       textStateId: computed(() => currentlyShownTextState.value),
+      showCard: computed(
+        () =>
+          currentlyShownTextState.value === 'SHOW_CLICK_THE_LIKE_BUTTON' ||
+          currentlyShownTextState.value === 'SHOW_IS_HE_HAPPY' ||
+          currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD'
+      ),
       message: computed(() => textStatesData[currentlyShownTextState.value]),
-      className: computed(() => className.value)
+      className: computed(() => className.value),
+      cardClassName: computed(() => cardClassName.value)
     };
   },
   mounted() {
+    // Hook to update changes when we "like" an image.
+    watchEffect(() => {
+      if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
+        const timings =
+          textStatesData[currentlyShownTextState.value].duration / 2;
+
+        setTimeout(() => {
+          isClippingIn.value = true;
+        }, timings);
+
+        setTimeout(() => {
+          isClipped.value = true;
+        }, timings + 1000);
+      }
+    });
+
+    // Hook to automatically re-animate.
     watchEffect(() => {
       this.reanimate(textStatesData[currentlyShownTextState.value].duration);
     });
   },
-  data() {
-    return {
-      img: XhakaImg
-    };
-  },
   methods: {
     handleLike() {
       isLiked.value = true;
+      this.handleNextText();
+
+      const timeoutBeforeGrayscale =
+        TRANSITION_DURATION +
+        textStatesData.SHOW_IS_HE_HAPPY.duration +
+        TRANSITION_DURATION +
+        TRANSITION_DURATION +
+        textStatesData.SHOW_IF_ONE_DAY_HES_SAD.duration / 2;
 
       setTimeout(() => {
         isClippingIn.value = true;
-      }, 1000);
+      }, timeoutBeforeGrayscale);
 
       setTimeout(() => {
         isClipped.value = true;
-      }, 1500);
+        cardClassName.value = undefined;
+      }, timeoutBeforeGrayscale + textStatesData.SHOW_IF_ONE_DAY_HES_SAD.duration / 4);
     },
     handleNextText() {
       // Trigger the hide transition.
@@ -153,7 +219,7 @@ export default {
         // Transition out.
         timeout = setTimeout(() => {
           this.handleNextText();
-        }, TRANSITION_DURATION + duration);
+        }, duration);
       }
     }
   }
@@ -161,10 +227,6 @@ export default {
 </script>
 
 <style>
-.main {
-  height: 100vh;
-}
-
 /* Clips. */
 .clippingIn > div {
   filter: grayscale(100%);
@@ -187,13 +249,51 @@ export default {
 }
 
 /* Text message. */
-.message {
-  color: #fff;
+.main {
+  height: 100vh;
+  width: 100vw;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.card-wrapper {
+  width: 300px;
+  height: 500px;
+  margin-bottom: 16px;
+}
+
+.image-wrapper {
+  width: 600px;
+  margin-bottom: 16px;
+}
+
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 601px) {
+  .message-wrapper {
+    max-width: 600px;
+  }
+}
+
+.transition-base {
   transition: all 1500ms;
   opacity: 0;
 }
 
-.message.in {
+.transition-base.in {
   opacity: 1;
+}
+
+.message {
+  color: #fff;
 }
 </style>
