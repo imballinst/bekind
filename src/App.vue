@@ -1,6 +1,6 @@
 <template>
-  <div class="main bg-black">
-    <div class="wrapper">
+  <div class="root bg-black flex-all-center">
+    <div class="flex-all-center wrapper relative">
       <section
         aria-label="Card"
         class="card-wrapper transition-base"
@@ -50,9 +50,9 @@
               rel="noopener noreferrer"
               class="text-blue-500 hover:text-blue-700"
             >
-              {{ message.source }}.
-            </a></span
-          >
+              {{ message.source }} </a
+            >.
+          </span>
         </span>
 
         <!-- This button is used to debug state-by-state. I'm too lazy to remove it. -->
@@ -264,17 +264,21 @@ figcaption {
   font-style: italic;
 }
 
-.main {
+.root {
   height: 100vh;
   width: 100vw;
 }
 
-.wrapper {
+.flex-all-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+}
+
+.wrapper {
+  width: 625px;
+  height: 625px;
 }
 
 .card-wrapper {
