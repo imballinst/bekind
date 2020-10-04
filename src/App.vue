@@ -125,7 +125,7 @@ const textStatesData = {
     text: "It's not always a happy story behind a smile."
   },
   SHOW_BE_KIND_TO_OTHERS: {
-    duration: 5000,
+    duration: undefined,
     text: 'Be kind to others.'
   }
 };
