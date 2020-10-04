@@ -2,7 +2,7 @@
   <div class="card-root rounded overflow-hidden shadow-lg">
     <img class="image" v-bind:src="img" alt="Sunset in the mountains" />
     <div class="px-6 py-4 bg-white">
-      <button v-on:click="$emit('handle-like')">
+      <button class="outline-none" v-on:click="$emit('handle-like')">
         <favorite v-if="isLiked" />
         <favorite-outlined v-else />
       </button>
