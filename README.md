@@ -32,3 +32,8 @@ No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
 https://www.instagram.com/p/CEgfn3JqlQc/
 https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/
 https://metro.co.uk/2020/04/29/granit-xhaka-speaks-hatred-arsenal-fans-telling-f-off-12626935/
+
+## TODOs
+
+- Preload image (in a hacky way!)
+- Reduce top padding when the first card appear for mobile screens
