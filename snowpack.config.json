@@ -3,7 +3,6 @@
     "public": "/",
     "src": "/_dist_"
   },
-  "extends": "@snowpack/app-scripts-vue",
   "plugins": [
     "@snowpack/plugin-vue",
     "@snowpack/plugin-dotenv",
@@ -11,7 +10,7 @@
       "@snowpack/plugin-build-script",
       { "cmd": "postcss", "input": [".css"], "output": [".css"] }
     ],
-    "@snowpack/plugin-webpack"
+    ["@snowpack/plugin-webpack"]
   ],
   "proxy": {}
 }
