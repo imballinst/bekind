@@ -1,5 +1,5 @@
 <template>
-  <div class="root bg-black">
+  <div class="root bg-black flex flex-col items-center justify-center">
     <div
       class="wrapper flex flex-col items-center relative"
       v-bind:class="{
@@ -281,7 +281,8 @@ figcaption {
   }
 
   .figure {
-    width: 600px;
+    width: 100%;
+    height: 100%;
   }
 }
 
