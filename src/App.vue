@@ -36,7 +36,7 @@
         <figure class="figure mb-4" v-if="isQuoteFromArticle">
           <img v-bind:src="message.img" v-bind:alt="message.text" />
           <figcaption class="text-white text-center">
-            Image credits: {{ message.imgSource }}.
+            Image credits: {{ message.imgCredits }}.
           </figcaption>
         </figure>
         <span
@@ -51,12 +51,12 @@
           <span v-if="isQuoteFromArticle">
             --
             <a
-              v-bind:href="message.sourceLink"
+              v-bind:href="message.articleLink"
               target="_blank"
               rel="noopener noreferrer"
               class="text-blue-500 hover:text-blue-700"
             >
-              {{ message.source }} </a
+              {{ message.articleSourceAndDate }} </a
             >.
           </span>
         </span>
@@ -111,21 +111,21 @@ const textStatesData = {
   SHOW_TALKSPORT_QUOTE: {
     duration: 10000,
     img: XhakaCupEar,
-    imgSource: 'DAZN',
+    imgCredits: 'DAZN',
     text:
       '"The 27-year-old waved his arms, cupped his ears and told fans to “f**k off” after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace."',
-    source: 'talkSPORT, October 30th, 2019',
-    sourceLink:
+    articleSourceAndDate: 'talkSPORT, October 30th, 2019',
+    articleLink:
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
   },
   SHOW_METRO_QUOTE: {
     duration: 10000,
     img: XhakaPutOffShirt,
-    imgSource: 'Getty Images - Getty',
+    imgCredits: 'Getty Images - Getty',
     text:
       '"Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper."',
-    source: 'Metro, April 29th, 2020',
-    sourceLink:
+    articleSourceAndDate: 'Metro, April 29th, 2020',
+    articleLink:
       'https://metro.co.uk/2020/04/29/granit-xhaka-speaks-hatred-arsenal-fans-telling-f-off-12626935/'
   },
   SHOW_ITS_NOT_ALWAYS_A_HAPPY_STORY_BEHIND_A_SMILE: {
@@ -182,6 +182,9 @@ export default {
     watchEffect(() => {
       // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
+        // Pre-fetch the next image.
+        prefetch(textStatesData.SHOW_TALKSPORT_QUOTE.img);
+
         const timings =
           textStatesData[currentlyShownTextState.value].duration / 2;
 
@@ -196,6 +199,10 @@ export default {
         setTimeout(() => {
           cardClassName.value = undefined;
         }, textStatesData[currentlyShownTextState.value].duration);
+      } else if (currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE') {
+        // Pre-fetch the next image.
+        // Need to automate this if the number of images is getting out of hand.
+        prefetch(textStatesData.SHOW_METRO_QUOTE.img);
       }
 
       // Re-animate.
@@ -239,6 +246,12 @@ export default {
     }
   }
 };
+
+// Pre-fetch the image.
+function prefetch(url) {
+  const img = new Image();
+  img.src = url;
+}
 </script>
 
 <style>
@@ -287,7 +300,7 @@ figcaption {
   }
 
   .wrapper.card-top-padding {
-    padding-top: 4rem;
+    padding-top: 3rem;
   }
 }
 
