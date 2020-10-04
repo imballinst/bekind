@@ -9,7 +9,7 @@
     >
       <section
         aria-label="Card"
-        class="card-wrapper transition-base"
+        class="card-wrapper transition-base mb-1"
         v-if="showCard"
         v-bind:class="cardClassName"
       >
@@ -30,10 +30,10 @@
 
       <section
         aria-label="Message"
-        class="message-wrapper transition-base"
+        class="message-wrapper flex flex-col transition-base"
         v-bind:class="className"
       >
-        <figure class="figure" v-if="isQuoteFromArticle">
+        <figure class="figure mb-1" v-if="isQuoteFromArticle">
           <img v-bind:src="message.img" v-bind:alt="message.text" />
           <figcaption class="text-white text-center">
             Image credits: {{ message.imgSource }}
@@ -289,16 +289,6 @@ figcaption {
 .card-wrapper {
   width: 300px;
   height: 500px;
-  margin-bottom: 1rem;
-}
-
-.figure {
-  margin-bottom: 1rem;
-}
-
-.message-wrapper {
-  display: flex;
-  flex-direction: column;
 }
 
 @media (max-width: 600px) {
