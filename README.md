@@ -36,4 +36,3 @@ https://metro.co.uk/2020/04/29/granit-xhaka-speaks-hatred-arsenal-fans-telling-f
 ## TODOs
 
 - Preload image (in a hacky way!)
-- Reduce top padding when the first card appear for mobile screens
