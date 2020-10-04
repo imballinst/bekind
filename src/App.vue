@@ -83,7 +83,7 @@ import CardVue from './components/Card.vue';
 
 import XhakaImg from './images/xhaka-community-shield.jpg';
 import XhakaCupEar from './images/dazn-xhaka-arm-crowd.png';
-import XhakaPutOffShirt from './images/getty-images-getty-xhaka-put-off-arsenal-shirt.jpeg';
+import XhakaPutOffShirt from './images/getty-images-getty-xhaka-put-off-arsenal-shirt.jpg';
 
 const isClippingIn = ref(false);
 const isClipped = ref(false);
