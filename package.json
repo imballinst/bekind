@@ -14,7 +14,7 @@
   "dependencies": {
     "qs": "^6.9.4",
     "tailwindcss": "^1.7.6",
-    "vue": "^3.0.0-rc.4"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -23,6 +23,7 @@
     "@snowpack/app-scripts-vue": "^1.8.4",
     "@snowpack/plugin-build-script": "^2.0.6",
     "@snowpack/plugin-dotenv": "^2.0.1",
+    "@snowpack/plugin-vue": "^2.2.0",
     "@snowpack/plugin-webpack": "^2.0.13",
     "autoprefixer": "^9.8.6",
     "postcss-cli": "^7.1.1",
