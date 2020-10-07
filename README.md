@@ -29,9 +29,7 @@ No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
 
 ## Image sources
 
-- https://www.instagram.com/p/CEgfn3JqlQc/
-- Embed from Getty Images. All within the free of use terms: https://www.gettyimages.com/resources/embed.
-
-<a id='k-VscjmWTstPBd7N8cqgkQ' class='gie-single' href='http://www.gettyimages.com/detail/1183802772' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'k-VscjmWTstPBd7N8cqgkQ',sig:'-CPd5mGTFm5050iUVV4_mHokMVXDnFl5iNS4sqJY52w=',w:'594px',h:'449px',items:'1183802772',caption: true ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-
-<a id='Q8sqFCZ4QepLHDg28FMJOQ' class='gie-single' href='http://www.gettyimages.com/detail/1183802758' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'Q8sqFCZ4QepLHDg28FMJOQ',sig:'59kcSk8uB4t8bt0okASGKg95gGJ40ZK7SqOSDccwZZw=',w:'594px',h:'437px',items:'1183802758',caption: true ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
+1. Granit Xhaka's Instagram: https://www.instagram.com/p/CEgfn3JqlQc/.
+2. Embed from Getty Images. All within the free of use terms: https://www.gettyimages.com/resources/embed.
+   2.1. Granit Xhaka of Arsenal reacts to the crowd after being substituted by Manager Unai Emery: https://www.gettyimages.com/detail/news-photo/granit-xhaka-of-arsenal-reacts-to-the-crowd-after-being-news-photo/1183802758.
+   2.2. Granit Xhaka of Arsenal takes off his shirt as he walks down the tunnel after being substituted by Manager Unai Emery: https://www.gettyimages.com/detail/news-photo/granit-xhaka-of-arsenal-takes-off-his-shirt-as-he-walks-news-photo/1183802772.
