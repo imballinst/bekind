@@ -32,7 +32,6 @@
         aria-label="Message"
         class="message-wrapper flex flex-col transition-base"
         v-bind:class="className"
-        style="display: none"
       >
         <div class="mb-4 flex flex-row justify-center">
           <iframe
@@ -174,9 +173,9 @@ const textStatesData = {
   SHOW_TALKSPORT_QUOTE: {
     duration: 10000,
     iframeSrc: createPrefetchSrc({
-      et: 'k-VscjmWTstPBd7N8cqgkQ',
-      id: '1183802772',
-      sig: '-CPd5mGTFm5050iUVV4_mHokMVXDnFl5iNS4sqJY52w='
+      et: 'Q8sqFCZ4QepLHDg28FMJOQ',
+      id: '1183802758',
+      sig: '59kcSk8uB4t8bt0okASGKg95gGJ40ZK7SqOSDccwZZw='
     }),
     title:
       'Granit Xhaka waved his arms to the crowd when they jeered him as he was substituted.',
@@ -194,16 +193,17 @@ const textStatesData = {
     title:
       "Granit Xhaka's response on Arsenal Twitter, few days after the incident.",
     text:
-      '"People have said things like “We will break your legs”, “Kill your wife” and “Wish that your daughter gets cancer”. That has stirred me up and I reached boiling point when I felt the rejection in the stadium on Sunday."',
-    articleSourceAndDate: 'Arsenal Twitter, October 30th, 2019',
+      "\"People have said things like 'We will break your legs', 'Kill your wife' and 'Wish that your daughter gets cancer'. That has stirred me up and I reached boiling point when I felt the rejection in the stadium on Sunday.\"",
+    articleSourceAndDate:
+      "Granit Xhaka's response on Arsenal Twitter, October 30th, 2019",
     articleLink: 'https://twitter.com/Arsenal/status/1189985747580936192'
   },
   SHOW_METRO_QUOTE: {
     duration: 10000,
     iframeSrc: createPrefetchSrc({
-      et: 'Q8sqFCZ4QepLHDg28FMJOQ',
-      id: '1183802758',
-      sig: '59kcSk8uB4t8bt0okASGKg95gGJ40ZK7SqOSDccwZZw='
+      et: 'k-VscjmWTstPBd7N8cqgkQ',
+      id: '1183802772',
+      sig: '-CPd5mGTFm5050iUVV4_mHokMVXDnFl5iNS4sqJY52w='
     }),
     title:
       'Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him.',
@@ -224,8 +224,7 @@ const textStatesData = {
 };
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
-// const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-const currentlyShownTextState = ref('SHOW_IS_HE_HAPPY');
+const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -281,9 +280,6 @@ export default {
 
       // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
-        // Pre-fetch the next image.
-        nextUsedIframe.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
-
         const timings =
           textStatesData[currentlyShownTextState.value].duration / 2;
 
@@ -298,12 +294,18 @@ export default {
         setTimeout(() => {
           cardClassName.value = undefined;
         }, textStatesData[currentlyShownTextState.value].duration);
+
+        setTimeout(() => {
+          // Pre-fetch the next image.
+          nextUsedIframe.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
+        }, textStatesData[currentlyShownTextState.value].duration + 1000);
       } else if (
         currentlyShownTextState.value === 'SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE'
       ) {
-        // Pre-fetch the next image.
-        // Need to automate this if the number of images is getting out of hand.
-        nextUsedIframe.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+        setTimeout(() => {
+          // Pre-fetch the next image.
+          nextUsedIframe.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+        }, textStatesData[currentlyShownTextState.value].duration + 1000);
       } else {
         nextUsedIframe.value = undefined;
       }
@@ -369,7 +371,6 @@ function createPrefetchSrc({ id, et, sig }) {
       et,
       tld: 'com',
       sig,
-      caption: maxContentWidth.value > 625,
       ver: 2
     },
     { addQueryPrefix: true }
