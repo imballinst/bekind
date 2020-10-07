@@ -32,6 +32,7 @@
         aria-label="Message"
         class="message-wrapper flex flex-col transition-base"
         v-bind:class="className"
+        style="display: none"
       >
         <div class="mb-4 flex flex-row justify-center">
           <iframe
@@ -45,7 +46,6 @@
                 currentlyActiveIframe === 0 && iframe1Src ? 'block' : 'none'
             }"
             scrolling="no"
-            style="display: inline-block"
             v-bind:width="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
                 ? maxContentWidth - 100
@@ -53,7 +53,7 @@
             "
             v-bind:height="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth
+                ? maxContentWidth - 200
                 : 0
             "
             frameborder="0"
@@ -69,7 +69,6 @@
                 currentlyActiveIframe === 1 && iframe2Src ? 'block' : 'none'
             }"
             scrolling="no"
-            style="display: inline-block"
             v-bind:width="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
                 ? maxContentWidth - 100
@@ -77,7 +76,7 @@
             "
             v-bind:height="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth
+                ? maxContentWidth - 200
                 : 0
             "
             frameborder="0"
@@ -90,7 +89,7 @@
           >
             <img v-bind:src="message.img" v-bind:alt="message.title" />
             <figcaption class="text-white text-center">
-              Image credits: {{ message.imgCredits }}.
+              {{ message.imgCredits }}
             </figcaption>
           </figure>
         </div>
@@ -130,13 +129,6 @@
     >
       Next
     </button> -->
-
-    <iframe
-      v-bind:src="iframe1Src"
-      style="display: none"
-      aria-label="prefetch-contents"
-      v-if="iframe1Src !== undefined"
-    ></iframe>
   </div>
 </template>
 
@@ -197,7 +189,8 @@ const textStatesData = {
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
     duration: 20000,
     img: XhakaArsenalTwitterResponseImg,
-    imgCredits: "Granit Xhaka's official response on Arsenal Twitter",
+    imgCredits:
+      "Granit Xhaka's official response. Image credits: Arsenal Twitter.",
     title:
       "Granit Xhaka's response on Arsenal Twitter, few days after the incident.",
     text:
@@ -231,7 +224,8 @@ const textStatesData = {
 };
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
-const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+// const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+const currentlyShownTextState = ref('SHOW_IS_HE_HAPPY');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
