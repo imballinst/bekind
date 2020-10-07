@@ -307,8 +307,22 @@ export default {
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
       }
 
-      currentlyUsedIframe.value =
+      const nextIframeSrc =
         textStatesData[currentlyShownTextState.value].iframeSrc;
+      console.log(nextIframeSrc);
+      if (nextIframeSrc !== undefined) {
+        currentlyUsedIframe.value = nextIframeSrc;
+      } else {
+        const duration = textStatesData[currentlyShownTextState.value].duration
+          ? textStatesData[currentlyShownTextState.value].duration / 2
+          : TRANSITION_DURATION;
+
+        setTimeout(() => {
+          currentlyUsedIframe.value = undefined;
+        }, duration);
+      }
+
+      console.log(currentlyShownTextState.value);
       // Ensure that the iframe switches between 1 and 2.
       currentlyActiveIframe.value = nextActiveIframe;
       // Re-animate.
