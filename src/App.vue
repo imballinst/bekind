@@ -41,7 +41,8 @@
             v-bind:src="iframe1Src"
             v-bind:title="message.title"
             v-bind:style="{
-              display: currentlyActiveIframe === 0 ? 'block' : 'none'
+              display:
+                currentlyActiveIframe === 0 && iframe1Src ? 'block' : 'none'
             }"
             scrolling="no"
             style="display: inline-block"
@@ -52,7 +53,7 @@
             "
             v-bind:height="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth - 225
+                ? maxContentWidth
                 : 0
             "
             frameborder="0"
@@ -64,7 +65,8 @@
             v-bind:src="iframe2Src"
             v-bind:title="message.title"
             v-bind:style="{
-              display: currentlyActiveIframe === 1 ? 'block' : 'none'
+              display:
+                currentlyActiveIframe === 1 && iframe2Src ? 'block' : 'none'
             }"
             scrolling="no"
             style="display: inline-block"
@@ -75,7 +77,7 @@
             "
             v-bind:height="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth - 225
+                ? maxContentWidth
                 : 0
             "
             frameborder="0"
@@ -195,7 +197,7 @@ const textStatesData = {
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
     duration: 20000,
     img: XhakaArsenalTwitterResponseImg,
-    imgCredits: 'Arsenal Twitter',
+    imgCredits: "Granit Xhaka's official response on Arsenal Twitter",
     title:
       "Granit Xhaka's response on Arsenal Twitter, few days after the incident.",
     text:
@@ -308,6 +310,8 @@ export default {
         // Pre-fetch the next image.
         // Need to automate this if the number of images is getting out of hand.
         nextUsedIframe.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+      } else {
+        nextUsedIframe.value = undefined;
       }
 
       // Ensure that the iframe switches between 1 and 2.
