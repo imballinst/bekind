@@ -47,12 +47,12 @@
             style="display: inline-block"
             v-bind:width="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth - 50
+                ? maxContentWidth - 100
                 : 0
             "
             v-bind:height="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth - 200
+                ? maxContentWidth - 225
                 : 0
             "
             frameborder="0"
@@ -70,17 +70,22 @@
             style="display: inline-block"
             v-bind:width="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth - 50
+                ? maxContentWidth - 100
                 : 0
             "
             v-bind:height="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth - 200
+                ? maxContentWidth - 225
                 : 0
             "
             frameborder="0"
           ></iframe>
-          <figure class="figure" v-if="message.img !== undefined">
+          <figure
+            class="figure"
+            v-if="
+              message.img !== undefined && message.articleLink !== undefined
+            "
+          >
             <img v-bind:src="message.img" v-bind:alt="message.title" />
             <figcaption class="text-white text-center">
               Image credits: {{ message.imgCredits }}.
@@ -173,7 +178,7 @@ const textStatesData = {
     text: 'If he is actually sad, will you consider him "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
-    duration: undefined,
+    duration: 10000,
     iframeSrc: createPrefetchSrc({
       et: 'k-VscjmWTstPBd7N8cqgkQ',
       id: '1183802772',
@@ -188,7 +193,7 @@ const textStatesData = {
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
   },
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
-    duration: 15000,
+    duration: 20000,
     img: XhakaArsenalTwitterResponseImg,
     imgCredits: 'Arsenal Twitter',
     title:
@@ -224,8 +229,7 @@ const textStatesData = {
 };
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
-// const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-const currentlyShownTextState = ref('SHOW_TALKSPORT_QUOTE');
+const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -436,6 +440,10 @@ figcaption {
 
 .figure {
   width: 100%;
+}
+
+.figure > img {
+  margin: 0 auto;
 }
 
 @media (max-width: 624px) {
