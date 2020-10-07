@@ -409,7 +409,7 @@ figcaption {
   width: 100vw;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 624px) {
   .wrapper {
     width: 100%;
     height: 100%;
@@ -434,7 +434,7 @@ figcaption {
   height: 500px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 624px) {
   .message-wrapper > span {
     padding-right: 1rem;
     padding-left: 1rem;
