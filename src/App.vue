@@ -434,6 +434,10 @@ figcaption {
   height: 500px;
 }
 
+.figure {
+  width: 100%;
+}
+
 @media (max-width: 624px) {
   .message-wrapper > span {
     padding-right: 1rem;
