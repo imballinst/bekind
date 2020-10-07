@@ -180,7 +180,7 @@ const textStatesData = {
     title:
       'Granit Xhaka waved his arms to the crowd when they jeered him as he was substituted.',
     text:
-      '"The 27-year-old waved his arms, cupped his ears and told fans to “f**k off” after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace."',
+      '"The 27-year-old waved his arms, cupped his ears and told fans to \'f**k off\' after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace."',
     articleSourceAndDate: 'talkSPORT, October 30th, 2019',
     articleLink:
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
@@ -224,7 +224,8 @@ const textStatesData = {
 };
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
-const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+// const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+const currentlyShownTextState = ref('SHOW_METRO_QUOTE');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -270,6 +271,7 @@ export default {
   mounted() {
     // Hook to automatically re-animate.
     watchEffect(() => {
+      // TODO(imballinst): this sometimes causing 'blinking' -- or text suddenly appears.
       const nextActiveIframe = (currentlyActiveIframe.value + 1) % 2;
       const currentlyUsedIframe =
         nextActiveIframe === 0 ? iframe1Src : iframe2Src;
@@ -338,9 +340,7 @@ export default {
     reanimate(duration) {
       // First transition in.
       clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        className.value = 'in';
-      }, 0);
+      className.value = 'in';
 
       if (duration !== undefined) {
         timeout = setTimeout(() => {
