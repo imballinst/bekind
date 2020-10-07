@@ -275,9 +275,6 @@ export default {
         nextActiveIframe === 0 ? iframe1Src : iframe2Src;
       const nextUsedIframe = nextActiveIframe === 1 ? iframe1Src : iframe2Src;
 
-      currentlyUsedIframe.value =
-        textStatesData[currentlyShownTextState.value].iframeSrc;
-
       // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
         const timings =
@@ -306,10 +303,10 @@ export default {
           // Pre-fetch the next image.
           nextUsedIframe.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
-      } else {
-        nextUsedIframe.value = undefined;
       }
 
+      currentlyUsedIframe.value =
+        textStatesData[currentlyShownTextState.value].iframeSrc;
       // Ensure that the iframe switches between 1 and 2.
       currentlyActiveIframe.value = nextActiveIframe;
       // Re-animate.
