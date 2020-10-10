@@ -150,7 +150,7 @@ const cardClassName = ref(undefined);
 
 const iframe1Src = ref(undefined);
 const iframe2Src = ref(undefined);
-const currentlyActiveIframe = ref(0);
+const currentlyActiveIframe = ref(undefined);
 
 const maxContentWidth = ref(window.innerWidth);
 
@@ -271,12 +271,6 @@ export default {
   mounted() {
     // Hook to automatically re-animate.
     watchEffect(() => {
-      // TODO(imballinst): this sometimes causing 'blinking' -- or text suddenly appears.
-      const nextActiveIframe = (currentlyActiveIframe.value + 1) % 2;
-      const currentlyUsedIframe =
-        nextActiveIframe === 0 ? iframe1Src : iframe2Src;
-      const nextUsedIframe = nextActiveIframe === 1 ? iframe1Src : iframe2Src;
-
       // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
         const timings =
@@ -296,26 +290,25 @@ export default {
 
         setTimeout(() => {
           // Pre-fetch the next image.
-          nextUsedIframe.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
+          iframe1Src.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 0;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
       } else if (
         currentlyShownTextState.value === 'SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE'
       ) {
         setTimeout(() => {
           // Pre-fetch the next image.
-          nextUsedIframe.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+          iframe2Src.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 1;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
       }
 
-      const nextIframeSrc =
-        textStatesData[currentlyShownTextState.value].iframeSrc;
-
-      if (nextIframeSrc !== undefined) {
-        currentlyUsedIframe.value = nextIframeSrc;
+      if (
+        textStatesData[currentlyShownTextState.value].iframeSrc === undefined
+      ) {
+        currentlyActiveIframe.value = undefined;
       }
 
-      // Ensure that the iframe switches between 1 and 2.
-      currentlyActiveIframe.value = nextActiveIframe;
       // Re-animate.
       this.reanimate(textStatesData[currentlyShownTextState.value].duration);
     });
