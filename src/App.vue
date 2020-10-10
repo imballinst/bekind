@@ -35,6 +35,7 @@
       >
         <div class="mb-4 flex flex-row justify-center">
           <iframe
+            ref="htmlref"
             v-bind:aria-label="
               iframe1Src !== undefined ? 'Active iframe' : 'Inactive Iframe'
             "
@@ -259,7 +260,8 @@ export default {
       currentlyActiveIframe: computed(() => currentlyActiveIframe.value),
       maxContentWidth: computed(() =>
         maxContentWidth.value > 625 ? 625 : maxContentWidth.value
-      )
+      ),
+      htmlref: computed(() => htmlref.value)
     };
   },
   created() {
@@ -269,6 +271,7 @@ export default {
     window.removeEventListener('resize', updateWindowWidth);
   },
   mounted() {
+    console.log(this.$refs.htmlref);
     // Hook to automatically re-animate.
     watchEffect(() => {
       // Update changes when we "like" an image.
