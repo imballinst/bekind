@@ -224,8 +224,8 @@ const textStatesData = {
 };
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
-// const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-const currentlyShownTextState = ref('SHOW_METRO_QUOTE');
+const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+// const currentlyShownTextState = ref('SHOW_METRO_QUOTE');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -309,20 +309,11 @@ export default {
 
       const nextIframeSrc =
         textStatesData[currentlyShownTextState.value].iframeSrc;
-      console.log(nextIframeSrc);
+
       if (nextIframeSrc !== undefined) {
         currentlyUsedIframe.value = nextIframeSrc;
-      } else {
-        const duration = textStatesData[currentlyShownTextState.value].duration
-          ? textStatesData[currentlyShownTextState.value].duration / 2
-          : TRANSITION_DURATION;
-
-        setTimeout(() => {
-          currentlyUsedIframe.value = undefined;
-        }, duration);
       }
 
-      console.log(currentlyShownTextState.value);
       // Ensure that the iframe switches between 1 and 2.
       currentlyActiveIframe.value = nextActiveIframe;
       // Re-animate.
