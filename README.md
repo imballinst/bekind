@@ -1,8 +1,8 @@
-# wysiots
+# bekind
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
 
-What You See Is Only The Surface (WYSIOTS) is a small interactive site, built with the hope so people will consider it's not always a happy story behind every smile.
+bekind is a small interactive site, built with the hope so people will consider it's not always a happy story behind every smile.
 
 ## Available Scripts
 
