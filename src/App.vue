@@ -181,13 +181,13 @@ const textStatesData = {
     duration: 5000,
     withBorder: true,
     img: XhakaImg,
-    text: 'Is he happy?'
+    text: 'Was he happy?'
   },
   SHOW_IF_ONE_DAY_HES_SAD: {
     duration: 7500,
     withBorder: true,
     img: XhakaImg,
-    text: 'If he is actually sad, will you consider him "ungrateful"?'
+    text: 'If he was actually sad, will you label him as "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
     duration: 12500,
