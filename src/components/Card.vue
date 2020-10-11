@@ -1,7 +1,7 @@
 <template>
   <div class="card-root rounded overflow-hidden shadow-lg">
     <img class="image" v-bind:src="img" alt="Sunset in the mountains" />
-    <div class="px-6 py-4 bg-white">
+    <div class="px-4 py-4 bg-white">
       <button
         class="outline-none focus:outline-none"
         v-on:click="$emit('handle-like')"
@@ -9,7 +9,7 @@
         <favorite v-if="isLiked" />
         <favorite-outlined v-else />
       </button>
-      <p class="text-gray-700 text-base">{{ text }}</p>
+      <p class="text-gray-700 text-sm">{{ text }}</p>
     </div>
   </div>
 </template>
