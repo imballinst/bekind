@@ -1,11 +1,23 @@
 <template>
   <div class="root bg-black flex flex-col items-center justify-center">
     <div
-      class="wrapper flex flex-col items-center relative p-4"
+      class="wrapper flex flex-col items-center relative p-4 pt-5"
       v-bind:class="{
         'justify-center': message.centerText
       }"
     >
+      <div
+        class="absolute bg-white top-0 left-0 h-2 transition-base"
+        v-bind:class="{
+          in:
+            message.duration === undefined || currentStoryProgress === 100
+              ? false
+              : true
+        }"
+        v-bind:style="{
+          width: `${currentStoryProgress}%`
+        }"
+      ></div>
       <section
         aria-label="Card"
         class="card-wrapper transition-base"
@@ -194,7 +206,7 @@ const textStatesData = {
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
   },
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
-    duration: 20000,
+    duration: 15000,
     withBorder: true,
     iframeSrc: createPrefetchSrc({
       et: '4lLiUHyxRStwHtqopnOBmQ',
@@ -239,10 +251,11 @@ const textStatesData = {
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-// const currentlyShownTextState = ref('SHOW_BE_KIND_TO_OTHERS');
+const currentStoryProgress = ref(0);
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
+let interval = null;
 
 export default {
   components: {
@@ -273,6 +286,11 @@ export default {
       currentlyActiveIframe: computed(() => currentlyActiveIframe.value),
       maxContentWidth: computed(() =>
         maxContentWidth.value > 625 ? 625 : maxContentWidth.value
+      ),
+      currentStoryProgress: computed(
+        () =>
+          (currentStoryProgress.value * 100) /
+          textStatesData[currentlyShownTextState.value].duration
       )
     };
   },
@@ -374,6 +392,15 @@ export default {
       }, TRANSITION_DURATION);
     },
     reanimate(duration) {
+      currentStoryProgress.value = 0;
+      clearInterval(interval);
+
+      interval = setInterval(() => {
+        if (currentStoryProgress.value < duration) {
+          currentStoryProgress.value += duration / 1000;
+        }
+      }, duration / 1000);
+
       // First transition in.
       clearTimeout(timeout);
       className.value = 'in';
