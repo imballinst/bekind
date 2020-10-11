@@ -31,6 +31,11 @@ No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
 
 1. Granit Xhaka's Instagram: https://www.instagram.com/p/CEgfn3JqlQc/.
 2. Embed from Getty Images. All within the free of use terms: https://www.gettyimages.com/resources/embed.
+
    2.1. Granit Xhaka of Arsenal reacts to the crowd after being substituted by Manager Unai Emery: https://www.gettyimages.com/detail/news-photo/granit-xhaka-of-arsenal-reacts-to-the-crowd-after-being-news-photo/1183802758.
+
    2.2. Granit Xhaka of Arsenal takes off his shirt as he walks down the tunnel after being substituted by Manager Unai Emery: https://www.gettyimages.com/detail/news-photo/granit-xhaka-of-arsenal-takes-off-his-shirt-as-he-walks-news-photo/1183802772.
-3. Granit Xhaka's response on Arsenal's Twitter: https://twitter.com/Arsenal/status/1189985747580936192.
+
+   2.3. Granit Xhaka of Arsenal FC looks on during the Premier League match between Crystal Palace and Arsenal FC at Selhurst Park: https://www.gettyimages.com/detail/news-photo/granit-xhaka-of-arsenal-fc-looks-on-during-the-premier-news-photo/1193086399?adppopup=true
+
+3. **[Unused]** Granit Xhaka's response on Arsenal's Twitter: https://twitter.com/Arsenal/status/1189985747580936192.
