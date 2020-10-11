@@ -35,7 +35,6 @@
       >
         <div class="mb-4 flex flex-row justify-center">
           <iframe
-            ref="htmlref"
             v-bind:aria-label="
               iframe1Src !== undefined ? 'Active iframe' : 'Inactive Iframe'
             "
@@ -48,7 +47,7 @@
             scrolling="no"
             v-bind:width="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth - 100
+                ? maxContentWidth - 50
                 : 0
             "
             v-bind:height="
@@ -71,7 +70,7 @@
             scrolling="no"
             v-bind:width="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth - 100
+                ? maxContentWidth - 50
                 : 0
             "
             v-bind:height="
@@ -226,7 +225,6 @@ const textStatesData = {
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-// const currentlyShownTextState = ref('SHOW_METRO_QUOTE');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -271,7 +269,6 @@ export default {
     window.removeEventListener('resize', updateWindowWidth);
   },
   mounted() {
-    console.log(this.$refs.htmlref);
     // Hook to automatically re-animate.
     watchEffect(() => {
       // Update changes when we "like" an image.
