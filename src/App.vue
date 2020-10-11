@@ -1,7 +1,7 @@
 <template>
   <div class="root bg-black flex flex-col items-center justify-center">
     <div
-      class="wrapper flex flex-col items-center relative p-4"
+      class="wrapper flex flex-col items-center relative p-4 pt-5"
       v-bind:class="{
         'justify-center': message.centerText
       }"
@@ -9,7 +9,8 @@
       <div
         class="absolute bg-white top-0 left-0 h-2"
         v-bind:style="{
-          width: `${currentStoryProgress}%`
+          width: `${currentStoryProgress}%`,
+          display: message.duration === undefined ? 'none' : undefined
         }"
       ></div>
       <section
@@ -388,10 +389,11 @@ export default {
     reanimate(duration) {
       currentStoryProgress.value = 0;
       clearInterval(interval);
+
+      const totalDuration = duration + TRANSITION_DURATION * 2;
       interval = setInterval(() => {
-        currentStoryProgress.value +=
-          textStatesData[currentlyShownTextState.value].duration / 1000;
-      }, textStatesData[currentlyShownTextState.value].duration / 1000);
+        currentStoryProgress.value += totalDuration / 1000;
+      }, totalDuration / 1000);
 
       // First transition in.
       clearTimeout(timeout);
