@@ -271,8 +271,8 @@ export default {
   mounted() {
     // Hook to automatically re-animate.
     watchEffect(() => {
-      // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
+        // Update changes when we "like" an image.
         const timings =
           textStatesData[currentlyShownTextState.value].duration / 2;
 
@@ -303,10 +303,28 @@ export default {
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
       }
 
+      // If the current state does not have `iframeSrc`, then hide all iframes.
       if (
         textStatesData[currentlyShownTextState.value].iframeSrc === undefined
       ) {
         currentlyActiveIframe.value = undefined;
+      }
+
+      // If next state has image, then pre-fetch it.
+      const currentIdx = LIST_TEXT_STATES.indexOf(
+        currentlyShownTextState.value
+      );
+      const nextTextState = LIST_TEXT_STATES[currentIdx + 1];
+
+      // Only prefetch from the fourth state.
+      // We prefetch it BEFORE the next state.
+      if (
+        currentIdx > 2 &&
+        nextTextState !== undefined &&
+        textStatesData[nextTextState].img
+      ) {
+        console.log('prefetch', textStatesData[nextTextState].img);
+        prefetchStaticImage(textStatesData[nextTextState].img);
       }
 
       // Re-animate.
@@ -370,6 +388,11 @@ function createPrefetchSrc({ id, et, sig }) {
     },
     { addQueryPrefix: true }
   )}`;
+}
+
+function prefetchStaticImage(src) {
+  const img = new Image();
+  img.src = src;
 }
 </script>
 
