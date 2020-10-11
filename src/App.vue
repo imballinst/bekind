@@ -171,7 +171,7 @@ const textStatesData = {
     text: 'If he is actually sad, will you consider him "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
-    duration: 10000,
+    duration: 12500,
     iframeSrc: createPrefetchSrc({
       et: 'Q8sqFCZ4QepLHDg28FMJOQ',
       id: '1183802758',
@@ -199,7 +199,7 @@ const textStatesData = {
     articleLink: 'https://twitter.com/Arsenal/status/1189985747580936192'
   },
   SHOW_METRO_QUOTE: {
-    duration: 10000,
+    duration: 17500,
     iframeSrc: createPrefetchSrc({
       et: 'k-VscjmWTstPBd7N8cqgkQ',
       id: '1183802772',
