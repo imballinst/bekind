@@ -7,10 +7,15 @@
       }"
     >
       <div
-        class="absolute bg-white top-0 left-0 h-2"
+        class="absolute bg-white top-0 left-0 h-2 transition-base"
+        v-bind:class="{
+          in:
+            message.duration === undefined || currentStoryProgress === 100
+              ? false
+              : true
+        }"
         v-bind:style="{
-          width: `${currentStoryProgress}%`,
-          display: message.duration === undefined ? 'none' : undefined
+          width: `${currentStoryProgress}%`
         }"
       ></div>
       <section
@@ -390,10 +395,11 @@ export default {
       currentStoryProgress.value = 0;
       clearInterval(interval);
 
-      const totalDuration = duration + TRANSITION_DURATION * 2;
       interval = setInterval(() => {
-        currentStoryProgress.value += totalDuration / 1000;
-      }, totalDuration / 1000);
+        if (currentStoryProgress.value < duration) {
+          currentStoryProgress.value += duration / 1000;
+        }
+      }, duration / 1000);
 
       // First transition in.
       clearTimeout(timeout);
