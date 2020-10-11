@@ -138,7 +138,7 @@ import CardVue from './components/Card.vue';
 import XhakaImg from './images/xhaka-community-shield.jpg';
 import XhakaArsenalTwitterResponseImg from './images/arsenal-xhaka-response.jpg';
 
-// An offset of 500ms from the CSS style so we won't see some "jumpy stuff".
+// An offset of 1000ms from the CSS style so we won't see some "jumpy stuff".
 const TRANSITION_DURATION = 2000;
 
 const isClippingIn = ref(false);
@@ -470,7 +470,7 @@ figcaption {
 }
 
 .transition-base {
-  transition: all 1500ms;
+  transition: all 1000ms;
   opacity: 0;
 }
 
