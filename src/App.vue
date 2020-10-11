@@ -141,7 +141,6 @@ import { computed, ref, watchEffect } from 'vue';
 import qs from 'qs';
 import CardVue from './components/Card.vue';
 import XhakaImg from './images/xhaka-community-shield.jpg';
-import XhakaArsenalTwitterResponseImg from './images/arsenal-xhaka-response.jpg';
 
 // An offset of 1000ms from the CSS style so we won't see some "jumpy stuff".
 const TRANSITION_DURATION = 2000;
@@ -197,9 +196,11 @@ const textStatesData = {
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
     duration: 20000,
     withBorder: true,
-    img: XhakaArsenalTwitterResponseImg,
-    imgCredits:
-      "Granit Xhaka's official response. Image credits: Arsenal Twitter.",
+    iframeSrc: createPrefetchSrc({
+      et: '4lLiUHyxRStwHtqopnOBmQ',
+      id: '1193086399',
+      sig: 'y-4yP3COV8GdM8V73LFnB9O0GWe6vulkG65L0OJMyV4='
+    }),
     title:
       "Granit Xhaka's response on Arsenal Twitter, few days after the incident.",
     text:
@@ -306,13 +307,20 @@ export default {
           iframe1Src.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
           currentlyActiveIframe.value = 0;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
+      } else if (currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE') {
+        setTimeout(() => {
+          // Pre-fetch the next image.
+          iframe2Src.value =
+            textStatesData.SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 1;
+        }, textStatesData[currentlyShownTextState.value].duration + 1000);
       } else if (
         currentlyShownTextState.value === 'SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE'
       ) {
         setTimeout(() => {
           // Pre-fetch the next image.
-          iframe2Src.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
-          currentlyActiveIframe.value = 1;
+          iframe1Src.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 0;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
       }
 
@@ -464,7 +472,7 @@ figcaption {
 }
 
 .transition-base {
-  transition: all 1000ms;
+  transition: opacity 1000ms;
   opacity: 0;
 }
 
