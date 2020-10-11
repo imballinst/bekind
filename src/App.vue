@@ -323,7 +323,6 @@ export default {
         nextTextState !== undefined &&
         textStatesData[nextTextState].img
       ) {
-        console.log('prefetch', textStatesData[nextTextState].img);
         prefetchStaticImage(textStatesData[nextTextState].img);
       }
 
