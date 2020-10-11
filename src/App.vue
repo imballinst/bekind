@@ -6,6 +6,12 @@
         'justify-center': message.centerText
       }"
     >
+      <div
+        class="absolute bg-white top-0 left-0 h-2"
+        v-bind:style="{
+          width: `${currentStoryProgress}%`
+        }"
+      ></div>
       <section
         aria-label="Card"
         class="card-wrapper transition-base"
@@ -239,10 +245,11 @@ const textStatesData = {
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-// const currentlyShownTextState = ref('SHOW_BE_KIND_TO_OTHERS');
+const currentStoryProgress = ref(0);
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
+let interval = null;
 
 export default {
   components: {
@@ -273,6 +280,11 @@ export default {
       currentlyActiveIframe: computed(() => currentlyActiveIframe.value),
       maxContentWidth: computed(() =>
         maxContentWidth.value > 625 ? 625 : maxContentWidth.value
+      ),
+      currentStoryProgress: computed(
+        () =>
+          (currentStoryProgress.value * 100) /
+          textStatesData[currentlyShownTextState.value].duration
       )
     };
   },
@@ -374,6 +386,13 @@ export default {
       }, TRANSITION_DURATION);
     },
     reanimate(duration) {
+      currentStoryProgress.value = 0;
+      clearInterval(interval);
+      interval = setInterval(() => {
+        currentStoryProgress.value +=
+          textStatesData[currentlyShownTextState.value].duration / 1000;
+      }, textStatesData[currentlyShownTextState.value].duration / 1000);
+
       // First transition in.
       clearTimeout(timeout);
       className.value = 'in';
