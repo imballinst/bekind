@@ -33,22 +33,76 @@
         class="message-wrapper flex flex-col transition-base"
         v-bind:class="className"
       >
-        <figure class="figure mb-4" v-if="isQuoteFromArticle">
-          <img v-bind:src="message.img" v-bind:alt="message.text" />
-          <figcaption class="text-white text-center">
-            Image credits: {{ message.imgCredits }}.
-          </figcaption>
-        </figure>
+        <div class="mb-4 flex flex-row justify-center">
+          <iframe
+            v-bind:aria-label="
+              iframe1Src !== undefined ? 'Active iframe' : 'Inactive Iframe'
+            "
+            v-bind:src="iframe1Src"
+            v-bind:title="message.title"
+            v-bind:style="{
+              display:
+                currentlyActiveIframe === 0 && iframe1Src ? 'block' : 'none'
+            }"
+            scrolling="no"
+            v-bind:width="
+              currentlyActiveIframe === 0 && iframe1Src !== undefined
+                ? maxContentWidth - 50
+                : 0
+            "
+            v-bind:height="
+              currentlyActiveIframe === 0 && iframe1Src !== undefined
+                ? maxContentWidth - 200
+                : 0
+            "
+            frameborder="0"
+          ></iframe>
+          <iframe
+            v-bind:aria-label="
+              iframe2Src !== undefined ? 'Active iframe' : 'Inactive Iframe'
+            "
+            v-bind:src="iframe2Src"
+            v-bind:title="message.title"
+            v-bind:style="{
+              display:
+                currentlyActiveIframe === 1 && iframe2Src ? 'block' : 'none'
+            }"
+            scrolling="no"
+            v-bind:width="
+              currentlyActiveIframe === 1 && iframe2Src !== undefined
+                ? maxContentWidth - 50
+                : 0
+            "
+            v-bind:height="
+              currentlyActiveIframe === 1 && iframe2Src !== undefined
+                ? maxContentWidth - 200
+                : 0
+            "
+            frameborder="0"
+          ></iframe>
+          <figure
+            class="figure"
+            v-if="
+              message.img !== undefined && message.articleLink !== undefined
+            "
+          >
+            <img v-bind:src="message.img" v-bind:alt="message.title" />
+            <figcaption class="text-white text-center">
+              {{ message.imgCredits }}
+            </figcaption>
+          </figure>
+        </div>
+
         <span
           class="text-white"
           v-bind:class="{
-            'text-center': !isQuoteFromArticle,
-            italic: isQuoteFromArticle
+            'text-center': message.articleLink === undefined,
+            italic: message.articleLink !== undefined
           }"
         >
           {{ message.text }}
 
-          <span v-if="isQuoteFromArticle">
+          <span v-if="message.articleLink !== undefined">
             --
             <a
               v-bind:href="message.articleLink"
@@ -79,17 +133,26 @@
 
 <script>
 import { computed, ref, watchEffect } from 'vue';
+import qs from 'qs';
 import CardVue from './components/Card.vue';
 import XhakaImg from './images/xhaka-community-shield.jpg';
-import XhakaCupEar from './images/dazn-xhaka-arm-crowd.png';
-import XhakaPutOffShirt from './images/getty-images-getty-xhaka-put-off-arsenal-shirt.jpg';
+import XhakaArsenalTwitterResponseImg from './images/arsenal-xhaka-response.jpg';
+
+// An offset of 1000ms from the CSS style so we won't see some "jumpy stuff".
+const TRANSITION_DURATION = 2000;
 
 const isClippingIn = ref(false);
 const isClipped = ref(false);
 const isLiked = ref(false);
 
-// An offset of 500ms from the CSS style so we won't see some "jumpy stuff".
-const TRANSITION_DURATION = 1500;
+const className = ref(undefined);
+const cardClassName = ref(undefined);
+
+const iframe1Src = ref(undefined);
+const iframe2Src = ref(undefined);
+const currentlyActiveIframe = ref(undefined);
+
+const maxContentWidth = ref(window.innerWidth);
 
 const textStatesData = {
   SHOW_CLICK_THE_LIKE_BUTTON: {
@@ -108,19 +171,42 @@ const textStatesData = {
     text: 'If he is actually sad, will you consider him "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
-    duration: 10000,
-    img: XhakaCupEar,
-    imgCredits: 'DAZN',
+    duration: 12500,
+    iframeSrc: createPrefetchSrc({
+      et: 'Q8sqFCZ4QepLHDg28FMJOQ',
+      id: '1183802758',
+      sig: '59kcSk8uB4t8bt0okASGKg95gGJ40ZK7SqOSDccwZZw='
+    }),
+    title:
+      'Granit Xhaka waved his arms to the crowd when they jeered him as he was substituted.',
     text:
-      '"The 27-year-old waved his arms, cupped his ears and told fans to “f**k off” after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace."',
+      '"The 27-year-old waved his arms, cupped his ears and told fans to \'f**k off\' after he was jeered as he was substituted during the 2-2 draw at home to Crystal Palace."',
     articleSourceAndDate: 'talkSPORT, October 30th, 2019',
     articleLink:
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
   },
+  SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
+    duration: 20000,
+    img: XhakaArsenalTwitterResponseImg,
+    imgCredits:
+      "Granit Xhaka's official response. Image credits: Arsenal Twitter.",
+    title:
+      "Granit Xhaka's response on Arsenal Twitter, few days after the incident.",
+    text:
+      "\"People have said things like 'We will break your legs', 'Kill your wife' and 'Wish that your daughter gets cancer'. That has stirred me up and I reached boiling point when I felt the rejection in the stadium on Sunday.\"",
+    articleSourceAndDate:
+      "Granit Xhaka's response on Arsenal Twitter, October 30th, 2019",
+    articleLink: 'https://twitter.com/Arsenal/status/1189985747580936192'
+  },
   SHOW_METRO_QUOTE: {
-    duration: 10000,
-    img: XhakaPutOffShirt,
-    imgCredits: 'Getty Images - Getty',
+    duration: 17500,
+    iframeSrc: createPrefetchSrc({
+      et: 'k-VscjmWTstPBd7N8cqgkQ',
+      id: '1183802772',
+      sig: '-CPd5mGTFm5050iUVV4_mHokMVXDnFl5iNS4sqJY52w='
+    }),
+    title:
+      'Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him.',
     text:
       '"Granit Xhaka admitted he’d never felt such ‘hatred’ directed towards him as he lost his cool and told Arsenal fans to ‘f*** off’ earlier this season. Xhaka was taunted by supporters as he was substituted during a 2-2 draw with Crystal Palace at the Emirates last October and lost his temper."',
     articleSourceAndDate: 'Metro, April 29th, 2020',
@@ -139,8 +225,6 @@ const textStatesData = {
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
-const className = ref(undefined);
-const cardClassName = ref(undefined);
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -166,24 +250,29 @@ export default {
           currentlyShownTextState.value === 'SHOW_IS_HE_HAPPY' ||
           currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD'
       ),
-      isQuoteFromArticle: computed(
-        () =>
-          currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE' ||
-          currentlyShownTextState.value === 'SHOW_METRO_QUOTE'
-      ),
       message: computed(() => textStatesData[currentlyShownTextState.value]),
       className: computed(() => className.value),
-      cardClassName: computed(() => cardClassName.value)
+      cardClassName: computed(() => cardClassName.value),
+      iframe1Src: computed(() => iframe1Src.value),
+      iframe2Src: computed(() => iframe2Src.value),
+      currentlyActiveIframe: computed(() => currentlyActiveIframe.value),
+      maxContentWidth: computed(() =>
+        maxContentWidth.value > 625 ? 625 : maxContentWidth.value
+      ),
+      htmlref: computed(() => htmlref.value)
     };
+  },
+  created() {
+    window.addEventListener('resize', updateWindowWidth);
+  },
+  destroyed() {
+    window.removeEventListener('resize', updateWindowWidth);
   },
   mounted() {
     // Hook to automatically re-animate.
     watchEffect(() => {
-      // Update changes when we "like" an image.
       if (currentlyShownTextState.value === 'SHOW_IF_ONE_DAY_HES_SAD') {
-        // Pre-fetch the next image.
-        prefetch(textStatesData.SHOW_TALKSPORT_QUOTE.img);
-
+        // Update changes when we "like" an image.
         const timings =
           textStatesData[currentlyShownTextState.value].duration / 2;
 
@@ -198,10 +287,43 @@ export default {
         setTimeout(() => {
           cardClassName.value = undefined;
         }, textStatesData[currentlyShownTextState.value].duration);
-      } else if (currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE') {
-        // Pre-fetch the next image.
-        // Need to automate this if the number of images is getting out of hand.
-        prefetch(textStatesData.SHOW_METRO_QUOTE.img);
+
+        setTimeout(() => {
+          // Pre-fetch the next image.
+          iframe1Src.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 0;
+        }, textStatesData[currentlyShownTextState.value].duration + 1000);
+      } else if (
+        currentlyShownTextState.value === 'SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE'
+      ) {
+        setTimeout(() => {
+          // Pre-fetch the next image.
+          iframe2Src.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 1;
+        }, textStatesData[currentlyShownTextState.value].duration + 1000);
+      }
+
+      // If the current state does not have `iframeSrc`, then hide all iframes.
+      if (
+        textStatesData[currentlyShownTextState.value].iframeSrc === undefined
+      ) {
+        currentlyActiveIframe.value = undefined;
+      }
+
+      // If next state has image, then pre-fetch it.
+      const currentIdx = LIST_TEXT_STATES.indexOf(
+        currentlyShownTextState.value
+      );
+      const nextTextState = LIST_TEXT_STATES[currentIdx + 1];
+
+      // Only prefetch from the fourth state.
+      // We prefetch it BEFORE the next state.
+      if (
+        currentIdx > 2 &&
+        nextTextState !== undefined &&
+        textStatesData[nextTextState].img
+      ) {
+        prefetchStaticImage(textStatesData[nextTextState].img);
       }
 
       // Re-animate.
@@ -233,9 +355,7 @@ export default {
     reanimate(duration) {
       // First transition in.
       clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        className.value = 'in';
-      }, 0);
+      className.value = 'in';
 
       if (duration !== undefined) {
         timeout = setTimeout(() => {
@@ -246,10 +366,32 @@ export default {
   }
 };
 
+// Update the window size.
+let resizeTimer;
+
+function updateWindowWidth() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function () {
+    maxContentWidth.value = window.innerWidth;
+  }, 250);
+}
+
 // Pre-fetch the image.
-function prefetch(url) {
+function createPrefetchSrc({ id, et, sig }) {
+  return `//embed.gettyimages.com/embed/${id}${qs.stringify(
+    {
+      et,
+      tld: 'com',
+      sig,
+      ver: 2
+    },
+    { addQueryPrefix: true }
+  )}`;
+}
+
+function prefetchStaticImage(src) {
   const img = new Image();
-  img.src = url;
+  img.src = src;
 }
 </script>
 
@@ -287,12 +429,7 @@ figcaption {
   width: 100vw;
 }
 
-.figure {
-  width: 100%;
-  height: 100%;
-}
-
-@media (max-width: 600px) {
+@media (max-width: 624px) {
   .wrapper {
     width: 100%;
     height: 100%;
@@ -303,7 +440,7 @@ figcaption {
   }
 }
 
-@media (min-width: 601px) {
+@media (min-width: 625px) {
   .wrapper {
     width: 625px;
     height: 625px;
@@ -317,7 +454,15 @@ figcaption {
   height: 500px;
 }
 
-@media (max-width: 600px) {
+.figure {
+  width: 100%;
+}
+
+.figure > img {
+  margin: 0 auto;
+}
+
+@media (max-width: 624px) {
   .message-wrapper > span {
     padding-right: 1rem;
     padding-left: 1rem;

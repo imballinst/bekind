@@ -1,8 +1,8 @@
 {
-  "name": "wysiots",
+  "name": "bekind",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": "git@github.com:Imballinst/wysiots.git",
+  "repository": "git@github.com:Imballinst/bekind.git",
   "author": "Try Ajitiono <ballinst@gmail.com>",
   "license": "MIT",
   "scripts": {
