@@ -10,7 +10,7 @@
         class="absolute bg-white top-0 left-0 h-2 transition-base"
         v-bind:class="{
           in:
-            message.duration === undefined || currentStoryProgress === 100
+            message.duration === undefined || className === undefined
               ? false
               : true
         }"
