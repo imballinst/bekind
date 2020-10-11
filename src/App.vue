@@ -1,15 +1,14 @@
 <template>
   <div class="root bg-black flex flex-col items-center justify-center">
     <div
-      class="wrapper flex flex-col items-center relative"
+      class="wrapper flex flex-col items-center relative p-4"
       v-bind:class="{
-        'justify-center': !showCard,
-        'card-top-padding': showCard
+        'justify-center': message.centerText
       }"
     >
       <section
         aria-label="Card"
-        class="card-wrapper transition-base mb-4"
+        class="card-wrapper transition-base"
         v-if="showCard"
         v-bind:class="cardClassName"
       >
@@ -30,10 +29,14 @@
 
       <section
         aria-label="Message"
-        class="message-wrapper flex flex-col transition-base"
-        v-bind:class="className"
+        class="flex flex-col transition-base items-center"
+        v-bind:class="{
+          [className]: true,
+          'mt-4': showCard,
+          'w-full': message.withBorder
+        }"
       >
-        <div class="mb-4 flex flex-row justify-center">
+        <div class="flex flex-row justify-center">
           <iframe
             v-bind:aria-label="
               iframe1Src !== undefined ? 'Active iframe' : 'Inactive Iframe'
@@ -81,7 +84,7 @@
             frameborder="0"
           ></iframe>
           <figure
-            class="figure"
+            class="w-full"
             v-if="
               message.img !== undefined && message.articleLink !== undefined
             "
@@ -97,6 +100,8 @@
           class="text-white"
           v-bind:class="{
             'text-center': message.articleLink === undefined,
+            'mt-4': !message.centerText && !showCard,
+            'border rounded border-white w-full p-4': message.withBorder,
             italic: message.articleLink !== undefined
           }"
         >
@@ -136,7 +141,6 @@ import { computed, ref, watchEffect } from 'vue';
 import qs from 'qs';
 import CardVue from './components/Card.vue';
 import XhakaImg from './images/xhaka-community-shield.jpg';
-import XhakaArsenalTwitterResponseImg from './images/arsenal-xhaka-response.jpg';
 
 // An offset of 1000ms from the CSS style so we won't see some "jumpy stuff".
 const TRANSITION_DURATION = 2000;
@@ -157,21 +161,25 @@ const maxContentWidth = ref(window.innerWidth);
 const textStatesData = {
   SHOW_CLICK_THE_LIKE_BUTTON: {
     duration: undefined,
+    withBorder: true,
     img: XhakaImg,
-    text: 'Click the "Like" button.'
+    text: 'Click the "Like" button (the one with the heart icon).'
   },
   SHOW_IS_HE_HAPPY: {
     duration: 5000,
+    withBorder: true,
     img: XhakaImg,
     text: 'Is he happy?'
   },
   SHOW_IF_ONE_DAY_HES_SAD: {
     duration: 7500,
+    withBorder: true,
     img: XhakaImg,
     text: 'If he is actually sad, will you consider him "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
     duration: 12500,
+    withBorder: true,
     iframeSrc: createPrefetchSrc({
       et: 'Q8sqFCZ4QepLHDg28FMJOQ',
       id: '1183802758',
@@ -187,9 +195,12 @@ const textStatesData = {
   },
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
     duration: 20000,
-    img: XhakaArsenalTwitterResponseImg,
-    imgCredits:
-      "Granit Xhaka's official response. Image credits: Arsenal Twitter.",
+    withBorder: true,
+    iframeSrc: createPrefetchSrc({
+      et: '4lLiUHyxRStwHtqopnOBmQ',
+      id: '1193086399',
+      sig: 'y-4yP3COV8GdM8V73LFnB9O0GWe6vulkG65L0OJMyV4='
+    }),
     title:
       "Granit Xhaka's response on Arsenal Twitter, few days after the incident.",
     text:
@@ -200,6 +211,7 @@ const textStatesData = {
   },
   SHOW_METRO_QUOTE: {
     duration: 17500,
+    withBorder: true,
     iframeSrc: createPrefetchSrc({
       et: 'k-VscjmWTstPBd7N8cqgkQ',
       id: '1183802772',
@@ -215,16 +227,19 @@ const textStatesData = {
   },
   SHOW_ITS_NOT_ALWAYS_A_HAPPY_STORY_BEHIND_A_SMILE: {
     duration: 7500,
+    centerText: true,
     text: "It's not always a happy story behind a smile."
   },
   SHOW_BE_KIND_TO_OTHERS: {
     duration: undefined,
+    centerText: true,
     text: 'Be kind to others.'
   }
 };
 const LIST_TEXT_STATES = Object.keys(textStatesData);
 
 const currentlyShownTextState = ref('SHOW_CLICK_THE_LIKE_BUTTON');
+// const currentlyShownTextState = ref('SHOW_BE_KIND_TO_OTHERS');
 
 // I don't think we need a state to store this timeout thing.
 let timeout = null;
@@ -258,8 +273,7 @@ export default {
       currentlyActiveIframe: computed(() => currentlyActiveIframe.value),
       maxContentWidth: computed(() =>
         maxContentWidth.value > 625 ? 625 : maxContentWidth.value
-      ),
-      htmlref: computed(() => htmlref.value)
+      )
     };
   },
   created() {
@@ -293,13 +307,20 @@ export default {
           iframe1Src.value = textStatesData.SHOW_TALKSPORT_QUOTE.iframeSrc;
           currentlyActiveIframe.value = 0;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
+      } else if (currentlyShownTextState.value === 'SHOW_TALKSPORT_QUOTE') {
+        setTimeout(() => {
+          // Pre-fetch the next image.
+          iframe2Src.value =
+            textStatesData.SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 1;
+        }, textStatesData[currentlyShownTextState.value].duration + 1000);
       } else if (
         currentlyShownTextState.value === 'SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE'
       ) {
         setTimeout(() => {
           // Pre-fetch the next image.
-          iframe2Src.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
-          currentlyActiveIframe.value = 1;
+          iframe1Src.value = textStatesData.SHOW_METRO_QUOTE.iframeSrc;
+          currentlyActiveIframe.value = 0;
         }, textStatesData[currentlyShownTextState.value].duration + 1000);
       }
 
@@ -434,10 +455,6 @@ figcaption {
     width: 100%;
     height: 100%;
   }
-
-  .wrapper.card-top-padding {
-    padding-top: 3rem;
-  }
 }
 
 @media (min-width: 625px) {
@@ -451,26 +468,11 @@ figcaption {
 
 .card-wrapper {
   width: 300px;
-  height: 500px;
-}
-
-.figure {
-  width: 100%;
-}
-
-.figure > img {
-  margin: 0 auto;
-}
-
-@media (max-width: 624px) {
-  .message-wrapper > span {
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
+  height: 466.167px;
 }
 
 .transition-base {
-  transition: all 1000ms;
+  transition: opacity 1000ms;
   opacity: 0;
 }
 
