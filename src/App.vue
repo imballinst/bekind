@@ -206,7 +206,7 @@ const textStatesData = {
       'https://talksport.com/football/622334/arsenal-offer-granit-xhaka-counselling-outburst-fans-kroenke/'
   },
   SHOW_ARSENAL_TWITTER_RESPONSE_QUOTE: {
-    duration: 20000,
+    duration: 15000,
     withBorder: true,
     iframeSrc: createPrefetchSrc({
       et: '4lLiUHyxRStwHtqopnOBmQ',
