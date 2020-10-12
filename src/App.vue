@@ -187,7 +187,7 @@ const textStatesData = {
     duration: 7500,
     withBorder: true,
     img: XhakaImg,
-    text: 'If he was actually sad, will you label him as "ungrateful"?'
+    text: 'If he was actually sad, will you label him "ungrateful"?'
   },
   SHOW_TALKSPORT_QUOTE: {
     duration: 12500,
