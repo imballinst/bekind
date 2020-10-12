@@ -287,11 +287,7 @@ export default {
       maxContentWidth: computed(() =>
         maxContentWidth.value > 625 ? 625 : maxContentWidth.value
       ),
-      currentStoryProgress: computed(
-        () =>
-          (currentStoryProgress.value * 100) /
-          textStatesData[currentlyShownTextState.value].duration
-      )
+      currentStoryProgress: computed(() => currentStoryProgress.value)
     };
   },
   created() {
@@ -392,14 +388,21 @@ export default {
       }, TRANSITION_DURATION);
     },
     reanimate(duration) {
+      // All things needed for story progress.
       currentStoryProgress.value = 0;
       clearInterval(interval);
+      const endMs = Date.now() + duration;
+      const INTERVAL_MS = 25;
 
       interval = setInterval(() => {
-        if (currentStoryProgress.value < duration) {
-          currentStoryProgress.value += duration / 1000;
+        const now = Date.now();
+        const diff = endMs - now;
+
+        if (diff >= 0) {
+          // While the current time is still "before" the end time.
+          currentStoryProgress.value = ((duration - diff) / duration) * 100;
         }
-      }, duration / 1000);
+      }, INTERVAL_MS);
 
       // First transition in.
       clearTimeout(timeout);
