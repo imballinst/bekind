@@ -2,7 +2,7 @@
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
 
-bekind is a small interactive site, built with the hope so people will consider it's not always a happy story behind every smile.
+bekind is a some-kind-of-story presentation site featuring Granit Xhaka of Arsenal FC during his 2019-2020 season, built with the hope so people will consider it's not always a happy story behind every smile.
 
 ## Available Scripts
 
