@@ -62,12 +62,12 @@
             scrolling="no"
             v-bind:width="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth - 50
+                ? iframeSizes.width
                 : 0
             "
             v-bind:height="
               currentlyActiveIframe === 0 && iframe1Src !== undefined
-                ? maxContentWidth - 200
+                ? iframeSizes.height
                 : 0
             "
             frameborder="0"
@@ -85,12 +85,12 @@
             scrolling="no"
             v-bind:width="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth - 50
+                ? iframeSizes.width
                 : 0
             "
             v-bind:height="
               currentlyActiveIframe === 1 && iframe2Src !== undefined
-                ? maxContentWidth - 200
+                ? iframeSizes.height
                 : 0
             "
             frameborder="0"
@@ -168,7 +168,7 @@ const iframe1Src = ref(undefined);
 const iframe2Src = ref(undefined);
 const currentlyActiveIframe = ref(undefined);
 
-const maxContentWidth = ref(window.innerWidth);
+const windowInnerWidth = ref(window.innerWidth);
 
 const textStatesData = {
   SHOW_CLICK_THE_LIKE_BUTTON: {
@@ -284,9 +284,16 @@ export default {
       iframe1Src: computed(() => iframe1Src.value),
       iframe2Src: computed(() => iframe2Src.value),
       currentlyActiveIframe: computed(() => currentlyActiveIframe.value),
-      maxContentWidth: computed(() =>
-        maxContentWidth.value > 625 ? 625 : maxContentWidth.value
-      ),
+      iframeSizes: computed(() => {
+        const maxWidth =
+          windowInnerWidth.value > 625 ? 625 : windowInnerWidth.value;
+        const width = maxWidth - 50;
+
+        return {
+          width,
+          height: width * 0.7
+        };
+      }),
       currentStoryProgress: computed(() => currentStoryProgress.value)
     };
   },
@@ -423,7 +430,7 @@ let resizeTimer;
 function updateWindowWidth() {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(function () {
-    maxContentWidth.value = window.innerWidth;
+    windowInnerWidth.value = window.innerWidth;
   }, 250);
 }
 
